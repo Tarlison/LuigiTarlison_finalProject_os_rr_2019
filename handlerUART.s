@@ -76,19 +76,19 @@ EXIT:
 UARTrec:
 	la 	  $14, $zero(tx_q)	# salva o tamanho do vetor
 	la    $13, $zero(nrx)	# carrega o endereço para zerar o valor
-	li    $9, 16			# salva o valor que será o novo número de casas disponíveis
-	sw    $9, $zero($13)	# atribui 16 ao ntx como se todos os espaços estivessem disponíveis
-	mov   $5, $zero			# receberá o novo indice
+	li    $5, 16			# salva o valor que será o novo número de casas disponíveis
+	sw    $5, $zero($13)	# atribui 16 ao ntx como se todos os espaços estivessem disponíveis
+	mov   $4, $zero			# receberá o novo indice
 
 DIV:
 	div	  $9, $5			# faz a divisao
 	mfhi  $6				# pega o resto da divisão
-	sw    $6, $5($14)		# salva o valor no vetor
-	addi  $5, $5, 1			# incrementa
-	srl   $9, $9, 4			# divide por 2 elevado a 16
+	sw    $6, $4($14)		# salva o valor no vetor
+	addi  $4, $4, 1			# incrementa
+	srl   $9, $9, 4			# divide por 2 elevado a 4
 	bne   $9, $zero, DIV	# continua a divisao se nao for igual a zero
-
-
+	sub   $6, $5, $4		# subtrai para encontrar a quantidade restante
+	sw    $6, $zero($13)    # salva o novo tamanho
 
 	#---------------------------------------------------
 	# return	

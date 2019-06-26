@@ -47,7 +47,7 @@ int main(){
 	}
 	disableInterr();
 
-	for(int c = tamanho-1; c >= 0; c--){
+	for(int c = 0; c >= tamanho-1; c--){
 		switch(saida[c]){
 			case '0': soma +=  0;
 			case '1': soma +=  1;
@@ -82,7 +82,7 @@ char Getc(void){
     }
     else{
         Ud.nrx = Ud.nrx - 1;
-        return rx_q[16-Ud.nrx];
+        return rx_q[15-Ud.nrx];
     }
 }
 int proberx(void){
@@ -93,7 +93,7 @@ int probetx(void){
 }
 int Putc(char c){
     if(Ud.ntx > 0){
-       tx_q[16-Ud.ntx] = c;
+       tx_q[15-Ud.ntx] = c;
        Ud.ntx = Ud.ntx - 1;
        return 0;
     }
@@ -101,9 +101,3 @@ int Putc(char c){
         return -1;
     }
 }
-
-int enableInterr(void){
-	return Staus.intEn;
-}
-
-int disableInterr(void){}
