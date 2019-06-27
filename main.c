@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <cMIPS.h>
-#include "handlers.s"
+#include "cMIPS.h"
 
 typedef  struct UARTdriver{
     int  rx_hd;//  reception  queue  head  index
@@ -15,13 +14,13 @@ typedef  struct UARTdriver{
 
 }UARTdriver;
 
-extern  UARTdriver  Ud;
-extern  int         _counter_val;
+UARTdriver  Ud;
+/*extern  int         _counter_val;
 extern  int         _counter_saves;
 extern  int         tx_has_started;
 extern  int         _uart_buff;
 extern  int         _dma_status;
-extern  int         _dma_saves;
+extern  int         _dma_saves;*/
 
 int proberx(void); //ja
 int probetx(void); //ja
@@ -30,7 +29,11 @@ void ioctl(Tcontrol); //sdfsdgfsdfg
 char Getc(void); //ja
 int Putc(char c); //ja
 
+extern void to_stdout(char c);
+
 int main(){
+	Ud.nrx = 0;
+	Ud.ntx = 16;
 	char saida[256];
 	int soma = 0;
 
@@ -40,15 +43,16 @@ int main(){
 	disableInterr();
 
 	enableInterr();
-	int tamanho = 16 - proberx();
-	while(proberx() >= 0){
-		int aux = proberx();
-		saida[aux] = Getc();
+	int tamanho = proberx();
+	while(proberx() > 0){
+		int aux = proberx() - 1;
+		saida[aux++] = Getc();
 	}
 	disableInterr();
 
 	for(int c = 0; c >= tamanho-1; c--){
-		switch(saida[c]){
+		soma += saida[c];
+		/*switch(saida[c]){
 			case '0': soma +=  0;
 			case '1': soma +=  1;
 			case '2': soma +=  2;
@@ -65,10 +69,11 @@ int main(){
 			case 'D': soma += 13;
 			case 'E': soma += 14;
 			case 'F': soma += 15;
-		}
+		}*/
 		soma *= 16;
 	}
 	soma /= 16; //cancela a ultima multiplicacao
+	printf("%d\n", soma);
 
 	/*chamar o rx em uma variavel e pegar char por char e colocar
 	numa fucking fila*/
@@ -82,7 +87,7 @@ char Getc(void){
     }
     else{
         Ud.nrx = Ud.nrx - 1;
-        return rx_q[15-Ud.nrx];
+        return from_stdin();
     }
 }
 int proberx(void){
@@ -95,6 +100,7 @@ int Putc(char c){
     if(Ud.ntx > 0){
        tx_q[15-Ud.ntx] = c;
        Ud.ntx = Ud.ntx - 1;
+       to_stdout(tx_q[15 - Ud.ntx]);
        return 0;
     }
     else{

@@ -78,7 +78,7 @@ UARTrec:
 	la    $13, $zero(nrx)	# carrega o endereço para zerar o valor
 	li    $5, 16			# salva o valor que será o novo número de casas disponíveis
 	sw    $5, $zero($13)	# atribui 16 ao ntx como se todos os espaços estivessem disponíveis
-	mov   $4, $zero			# receberá o novo indice
+	move  $4, $zero			# receberá o novo indice
 
 DIV:
 	div	  $9, $5			# faz a divisao
