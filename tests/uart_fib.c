@@ -62,6 +62,7 @@ void Putc(char);           // inserts char in queue, decrements ntx
 void initUd();
 void insertionSort(int v[], int size);
 void writeFirstChar();     // get the first character on TX queue and write it in the UART
+int fibonacci(int entrada);// fibonacci function
 int ctoi(char);            // converts a character to an integer
 void itoc(int, char*);     // converts integer to char 
 
