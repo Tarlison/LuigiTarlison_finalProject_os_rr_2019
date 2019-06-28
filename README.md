@@ -9,6 +9,7 @@ Deixando a pasta pronta com os arquivos:
     transfira para a pasta /cmips/cMIPS/tests no repositório cmips;
     3) Pegue os arquivos da pasta '/sav' em nosso repositório e 
     transfira para a pasta /cmips/cMIPS no repositório cmips.
+    4) Dentro do repositório cmips na pasta /cmips/cMIPS, transifra o arquivo tb_cmips para a pasta tests.
 
 Instalando crossCompiler (caso necessário):
 
