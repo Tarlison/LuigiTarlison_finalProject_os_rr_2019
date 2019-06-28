@@ -77,16 +77,14 @@ int main(){
     initUd();
     volatile char c;
     int h, i=0, n=0;
-    int v[MAX_SIZE];
     int fib[MAX_SIZE];
     char last = EOF;
-    while((c = getc()) != '\0') {
+    while((c = getc()) != '\n' || last != '\n') {
         if(c != EOF) {
             if(c == '\n' && last != '\n') {
-                v[i] = n;
-                n = 0;
+            	fib[i] = fibonacci(n);
                 i++;
-                fib[i] = fibonacci(v[i]);
+                n = 0;
             }else{
                 h = ctoi(c);
                 if(h != EOF) {
@@ -100,7 +98,7 @@ int main(){
     char hex[9];
     int count;
     for(count = 0; count < i; count++){
-        itoc(v[count], hex);
+        itoc(fib[count], hex);
         n = 0;
         while(hex[n] != '\0') {
             Putc(hex[n]);
